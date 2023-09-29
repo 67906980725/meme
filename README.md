@@ -36,6 +36,10 @@
         │      2ba4fda4_1440w.jpg
 ```
 
+### windows
+
+下载 sqlite3.dll 到 meme 目录下
+
 ### linux
 
 安装 `xclip`
@@ -69,6 +73,8 @@ pkg install -y sqlite
 - nodejs npm
 - rustup
 - libsqlite3-dev
+
+windows 需要构建 `SQLite3.lib` `sqlite3.exp` 并复制 `sqlite3.dll` 到工作目录
 
 ### 构建 meme
 
