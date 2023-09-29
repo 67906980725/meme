@@ -1,0 +1,10 @@
+[Unit]
+Description=meme image picker daemon
+
+[Service]
+Type=simple
+WorkingDirectory=%h/.local/app/meme/
+ExecStart=%h/.local/app/meme/meme
+
+[Install]
+WantedBy=default.target

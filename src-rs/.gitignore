@@ -1,0 +1,12 @@
+.idea
+/target
+
+/.env
+/resource/dist
+/data
+/.asset
+
+# windiws lib
+/sqlite3.dll
+/sqlite3.lib
+/sqlite3.exp

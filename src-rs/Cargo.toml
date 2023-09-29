@@ -1,0 +1,32 @@
+[package]
+name = "meme"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+#actix-web.workspace = true
+actix-web = "4.3.1"
+actix-cors = "0.6.4"
+actix-files = "0.6.2"
+actix-multipart = "0.6.0"
+actix-rt = "2.8.0"
+dirs = "5.0.1"
+dotenvy = "0.15.7"
+tokio = { version = "1.29.1", features = ["full"] }
+anyhow = "1.0.72"
+diesel = { version = "2.1.0", features = ["sqlite", "r2d2"] }
+serde = { version = "1.0", features = ["derive"] }
+#env_logger.workspace = true
+env_logger = "0.10.0"
+#log.workspace = true
+log = "0.4.19"
+pinyin = "0.9"
+regex = "1.4"
+walkdir = "2.3.3"
+notify = "6.0.1"
+notify-debouncer-full = "0.2.0"
+futures = "0.3"
+comparator = "0.3.0"
+uuid = { version = "1", features = ["v4"] }
