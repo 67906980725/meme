@@ -8,7 +8,7 @@ mkdir -p "$target_path"
 # 安装
 cp -af ./target/linux/. "$target_path/"
 
-# 链接资源目录
+# 链接资源目录, 如果没有(链接)资源目录就启动 meme 会启动失败
 # ln -s $HOME/asset/tel/recreation/meme/.asset $HOME/.local/app/meme/asset
 
 # 桌面图标
