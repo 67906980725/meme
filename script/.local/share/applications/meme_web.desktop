@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Terminal=false
+Icon=preferences-desktop-emoticons
+Exec=sh -c "xdg-open http://127.0.0.1:8899"
+Name=meme_web
+Name[zh_CN]=meme_web
+Comment=meme_web
+Comment[zh_CN]=meme_web
+Categories=Net;Network,Tool
