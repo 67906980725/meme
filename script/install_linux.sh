@@ -18,4 +18,4 @@ ln -sf "$target_path/.local/share/applications/meme_web.desktop" "$HOME/.local/s
 # 服务
 mkdir -p "$HOME/.config/systemd/user"
 ln -sf "$target_path/.config/systemd/user/meme.service" "$HOME/.config/systemd/user/meme.service"
-# systemctl enable --now --user meme.service
+systemctl enable --now --user meme.service
