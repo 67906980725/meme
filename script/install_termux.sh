@@ -8,6 +8,9 @@ mkdir -p "$target_path"
 # 安装
 cp -af ./target/linux/. "$target_path/"
 
+# 链接资源目录
+# ln -s /sdcard/asset/tel/recreation/meme/.asset $HOME/.local/app/meme/asset
+
 create_service() {
   svc_name="$1"
   cmd="$2"
