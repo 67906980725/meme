@@ -78,9 +78,9 @@ npm install
 
 # 如果是 linux 或 termux
 #  - 打包资源文件到 target 目录
-npm package-linux
+npm run package-linux
 #  - linux 直接安装 (到 ~/.local/app/meme)
-npm install-linux
+npm run install-linux
 #  - termux 直接安装
-npm install-termux
+npm run install-termux
 ```
