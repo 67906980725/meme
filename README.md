@@ -64,7 +64,7 @@ pkg install -y sqlite
 
 ## 构建
 
-### 开发环境(bebian
+### 开发环境(debian
 
 - nodejs npm
 - rustup
