@@ -9,7 +9,10 @@ mkdir -p "$target_path"
 cp -af ./target/linux/. "$target_path/"
 
 # 链接资源目录, 如果没有(链接)资源目录就启动 meme 会启动失败
-# ln -s /sdcard/asset/tel/recreation/meme/.asset $HOME/.local/app/meme/asset
+# ln -s $HOME/storage/shared/asset/tel/recreation/meme/.asset $HOME/.local/app/meme/asset
+# 如果是使用链接的资源目录, 并且资源目录与应用不在同一分区, 需要同时创建与资源目录同分区的tmp目录链接
+# mkdir -p $HOME/storage/shared/asset/tmp
+# ln -s $HOME/storage/shared/asset/tmp $HOME/.local/app/meme/tmp
 
 create_service() {
   svc_name="$1"
