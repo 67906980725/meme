@@ -192,11 +192,11 @@ export default {
       })
     },
     handle_imgs_change() {
-      // img group 刷新后默认复制第一个
       const imgs = this.state.images
-      if (imgs && imgs.length && this.state.search_str != '') {
-        this.copy_img(imgs[0], isMobile ? 0 : 1)
-      }
+      // img group 刷新后默认复制第一个
+      // if (imgs && imgs.length && this.state.search_str != '') {
+      //   this.copy_img(imgs[0], isMobile ? 0 : 1)
+      // }
     },
     focus_input() {
       // 使用$refs来获取输入框元素，并调用focus()方法聚焦
