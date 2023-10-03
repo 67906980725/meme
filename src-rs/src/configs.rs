@@ -31,3 +31,8 @@ pub fn get_tmp_path_buf() -> PathBuf {
   let tmp_dir_r = std::env::var("TMP_DIR").unwrap_or_else(|_| "tmp".to_string());
   PathBuf::from(tmp_dir_r)
 }
+
+// 文件同步延时 默认为 300 秒
+pub fn get_sync_delay() -> u64 {
+  std::env::var("SYNC_DELAY").map(|s| s.parse::<u64>().unwrap()).unwrap_or_else(|_| 300)
+}

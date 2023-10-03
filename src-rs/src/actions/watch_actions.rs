@@ -13,7 +13,8 @@ pub async fn async_watch() -> notify::Result<()> {
   log::info!("async_watch: {:?}", asset_path_buf);
 
   let (tx, rx) = std::sync::mpsc::channel();
-  let mut debouncer = new_debouncer(Duration::from_secs(300), None, tx)?;
+  let sync_delay = configs::get_sync_delay();
+  let mut debouncer = new_debouncer(Duration::from_secs(sync_delay), None, tx)?;
   debouncer
     .watcher()
     .watch(asset_path_buf.as_ref(), RecursiveMode::Recursive)?;
