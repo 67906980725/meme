@@ -6,6 +6,11 @@ pub struct FolderParam {
   pub keyword: String,
 }
 #[derive(Serialize, Deserialize)]
+pub struct AddStyleParam {
+  pub name: String,
+  pub sort: i32,
+}
+#[derive(Serialize, Deserialize)]
 pub struct AddFolderParam {
   pub styleId: i32,
   pub name: String,

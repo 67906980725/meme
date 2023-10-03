@@ -20,13 +20,14 @@ type DbError = Box<dyn std::error::Error + Send + Sync>;
 pub fn atomic_add(
   conn: &mut SqliteConnection,
   add_name: String,
+  sort_opt: Option<i32>
 ) -> Style {
   let add_name_cp = add_name.clone();
   // 根据name查询, 有的话直接返回
   let po_opt = find_by_name(conn, add_name);
   if po_opt.is_some() { return po_opt.unwrap(); }
 
-  let mut vo = Style { name: add_name_cp, sort: 2, id: None };
+  let mut vo = Style { name: add_name_cp, sort: sort_opt.unwrap_or_else(|| 2), id: None };
   insert_into(style).values(&vo).execute(conn).unwrap();
 
   let id_opt = style.select(max(id)).first::<Option<i32>>(conn).unwrap();
@@ -85,7 +86,7 @@ pub fn add_with_childs(conn: &mut SqliteConnection, add_path: &std::path::Path, 
   let add_name = add_path.file_name().unwrap().to_str().unwrap();
   if add_name.starts_with(".") { return; }
 
-  let style_po = crate::style_actions::atomic_add(conn, String::from(add_name));
+  let style_po = crate::style_actions::atomic_add(conn, String::from(add_name), Option::None);
   WalkDir::new(add_path).max_depth(1).min_depth(1).into_iter()
     .filter_map(|r| r.ok())
     .filter(|entry2| entry2.metadata().is_ok())

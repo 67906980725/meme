@@ -75,12 +75,12 @@ async fn greet(name: web::Path<String>) -> impl Responder {
   HttpResponse::Ok().json(format!("Hello {name}!"))
 }
 
-// 添加style
-#[get("/style/add/{name}")]
-async fn add_style(name: web::Path<String>) -> impl Responder {
+// 添加style(没用)
+#[get("/style/add_by_name/{name}")]
+async fn add_style_by_name(name: web::Path<String>) -> impl Responder {
   let r = web::block(move || {
     let mut conn = configs::establish_connection();
-    let r = style_actions::atomic_add(&mut conn, name.to_string());
+    let r = style_actions::atomic_add(&mut conn, name.to_string(), Option::None);
     drop(conn);
     r
   }).await.unwrap();
@@ -96,6 +96,18 @@ async fn list_style() -> impl Responder {
     r
   }).await.unwrap();
   HttpResponse::Ok().json(r)
+}
+
+// 添加style
+#[post("/style/add")]
+async fn add_style(params: web::Json<params::AddStyleParam>) -> impl Responder {
+  let r = web::block(move || {
+    let mut conn = configs::establish_connection();
+    let r = style_actions::atomic_add(&mut conn, params.name.clone(), Some(params.sort));
+    drop(conn);
+    r
+  }).await.unwrap();
+  HttpResponse::Ok()
 }
 
 // 添加folder

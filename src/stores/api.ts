@@ -37,6 +37,9 @@ export class FolderService {
   static async copy_img(path: string, host: string) {
     return request('/image/copy', { path: path, host: host }, 'get')
   }
+  static async add_style(name: string, sort: number) {
+    return request('/style/add', { name, sort }, 'post')
+  }
   static async add(name: string, keyword: string, styleId: number) {
     return request('/folder/add', { name: name, keyword: keyword, styleId: styleId }, 'post')
   }

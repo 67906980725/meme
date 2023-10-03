@@ -26,6 +26,7 @@
           @change="handle_search_input_change"
           ref="searchInput"
         />
+        <n-button @click="state.show_style_modal = true">S</n-button>
         <n-button @click="showModal = true">F</n-button>
         <n-button v-if="isMobile" @click="selectFile">+</n-button>
         <n-button v-if="!isMobile" @click="open_folder">O</n-button>
@@ -77,15 +78,26 @@
     </n-layout>
   </div>
 
+  <n-modal v-model:show="state.show_style_modal">
+    <n-card style="width: 600px" :bordered="false" size="huge" role="dialog" aria-modal="true">
+      <template #header-extra>添加模式/风格目录</template>
+      <n-input v-model:value="state.add_style_name" type="text" placeholder="模式/风格名称" />
+      <n-input v-model:value="state.add_style_sort" type="number" placeholder="排序号"/>
+      <n-button @click="add_style">提交</n-button>
+      <template #footer> </template>
+    </n-card>
+  </n-modal>
+
   <n-modal v-model:show="showModal">
     <n-card style="width: 600px" :bordered="false" size="huge" role="dialog" aria-modal="true">
-      <template #header-extra> </template>
-      <n-input v-model:value="add_folder_name" type="text" placeholder="表情" />
+      <template #header-extra>添加表情分类目录</template>
+      <n-input v-model:value="add_folder_name" type="text" placeholder="表情分类名称" />
       <n-input v-model:value="add_folder_keyword" type="textarea" placeholder="关键词(逗号分隔)" />
       <n-button @click="add_folder">提交</n-button>
       <template #footer> </template>
     </n-card>
   </n-modal>
+
 </template>
 
 <script lang="js">
@@ -97,6 +109,7 @@ import { Config } from '@/stores/config'
 
 const isMobile = DeviceUtil.isMobile
 const debounce = isMobile ? NetUtil.dyn_debounce(370) : null
+const tabs_type = isMobile ? 'line' : 'card'
 
 export default {
   setup() {
@@ -107,24 +120,23 @@ export default {
       folders: [],
       folder_id: 0,
       images: [],
+      // 添加风格目录项
+      show_style_modal: false,
+      add_style_name: '',
+      add_style_sort: 0,
     })
+
+    // 添加表情目录项
     const showModal = ref(false)
     const add_folder_name = ref('')
     const add_folder_keyword = ref('')
 
-    const tabs_type = isMobile ? 'line' : 'card'
-
-    return { state, isMobile, Config, debounce, tabs_type, showModal, add_folder_name, add_folder_keyword }
+    return { Config, isMobile, debounce, tabs_type, state, showModal, add_folder_name, add_folder_keyword }
   },
   mounted() {
-    // 页面渲染后
+    /// 页面渲染后
     // 加载style列表
-    FolderService.styles().then(r => {
-      this.state.styles = r
-      if (r && r.length) {
-        this.handle_styles_update(r[0].id)
-      }
-    })
+    this.fetch_sytle()
     // 聚焦搜索框
     this.focus_input()
   },
@@ -146,6 +158,9 @@ export default {
       this.search_folder(val)
     },
     handle_search_input_blur() {
+      if (this.state.show_style_modal || this.showModal) {
+        return
+      }
       // 搜索框失焦1秒后自动聚焦
       setTimeout(() => {
         this.focus_input()
@@ -232,6 +247,21 @@ export default {
 
       // 发送长按图片事件
 
+    },
+    fetch_sytle(sel_idx = 0) {
+      FolderService.styles().then(r => {
+        this.state.styles = r
+        if (r && r.length) {
+          this.handle_styles_update(r[sel_idx].id)
+        }
+      })
+    },
+    add_style() {
+      FolderService.add_style(this.state.add_style_name, Number(this.state.add_style_sort))
+        .then(r => { 
+          this.state.show_style_modal = false
+          this.fetch_sytle(this.state.styles.length)
+        })
     },
     add_folder() {
       FolderService.add(this.add_folder_name, this.add_folder_keyword, this.state.style_id)

@@ -14,31 +14,20 @@
 
 ## 使用方式
 
-在命令行(windows可以双击)启动后在浏览器访问 127.0.0.1:8899
+- [启动] 在命令行(windows可以双击)启动后在浏览器访问 `127.0.0.1:8899`
+- [添加模式/风格] 点击 `S` 按钮添加模式/风格
+- [添加表情分类] 点击 `F` 按钮添加表情分类, 在 `关键词` 栏目输入你所能联想到的尽可能多的关键词并以逗号分隔
+- [添加表情图片] (`pc:chrome`)拖动图片到当前分类下空白处
+- [添加表情图片] (`android:termux`)点击 `+` 按钮选择图片
+- [搜索表情图片] 在搜索框输入 关键词 / 关键词拼音 / 关键词拼音缩写 / 多个关键词 后回车
+- [复制表情图片] (`pc`) 点击表情图片
 
-## 初始化
-
-### 资源
-
-- 在 `asset` 目录下存放你的按**风格(模式)文件夹**\\**分类文件夹**分好类的表情图片
-- 每个**分类文件夹**下存放一个`utf-8`编码的文本文件(如`keywork.txt`), 里边写好对于这个类目你所能联想到的尽可能多的关键词并以逗号分隔
-- `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force` 在 powershell 执行命令(windows)
-
-.asset 目录结构如下
-
-``` plaintext
-.asset
-    └─工作
-        │ order.txt
-        │
-        ├─好的
-        │      keywords.txt
-        │      2ba4fda4_1440w.jpg
-```
+## 依赖
 
 ### windows
 
-下载 sqlite3.dll 到 meme 目录下
+- 下载 `sqlite3.dll` 到 `meme` 目录下
+- 在 `powershell` 执行命令以允许运行脚本 `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force`
 
 ### linux
 
@@ -55,10 +44,11 @@ apt upgrade -y
 
 # 安装基础依赖
 pkg install -y termux-api termux-services
-# 存储权限
+# 申请存储权限
 termux-setup-storage
 
-
+# 安装sqlite
+pkg install -y sqlite
 
 # 安装glibc
 pkg ins pacman -y
@@ -68,9 +58,23 @@ wget ${github_proxy}https://github.com/Maxython/glibc-for-termux/releases/downlo
 tar xJf gpft-20221025-${arch}.tar.xz
 pacman -U glibc-for-termux/*
 #grun --shell # 起一个可以访问 glibc 命令的shell
+```
 
-# 安装sqlite
-pkg install -y sqlite
+## 资源
+
+- 在 `asset` 目录下存放着按**风格(模式)文件夹**/**分类文件夹**分好类的表情图片
+- 每个**表情分类文件夹**下存有放一个`utf-8`编码, 内容为关键词的文本文件(默认为 `keywork.txt`)
+
+`.asset` 目录结构如下
+
+``` plaintext
+.asset
+    └─工作
+        │ order.txt
+        │
+        ├─好的
+        │      keywords.txt
+        │      2ba4fda4_1440w.jpg
 ```
 
 ## 构建
@@ -81,7 +85,7 @@ pkg install -y sqlite
 - rustup
 - libsqlite3-dev
 
-windows 需要构建 `SQLite3.lib` `sqlite3.exp` 并复制 `sqlite3.dll` 到工作目录
+`windows` 需要构建 `SQLite3.lib` `sqlite3.exp` 并复制 `sqlite3.dll` 到工作目录
 
 ### 构建 meme
 
