@@ -53,6 +53,13 @@
 apt update
 apt upgrade -y
 
+# 安装基础依赖
+pkg install -y termux-api termux-services
+# 存储权限
+termux-setup-storage
+
+
+
 # 安装glibc
 pkg ins pacman -y
 github_proxy='https://download.nuaa.cf/'
