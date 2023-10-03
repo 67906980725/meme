@@ -1,5 +1,5 @@
 <template>
-  <!-- 允许拖动图片到页放上传 -->
+  <!-- 允许拖动/粘贴图片上传 -->
   <div class="drop-zone" @dragover="allowDrop" @drop="handleDrop" @paste="handlePaste" style="height: 100%">
     <n-layout>
       <n-tabs class="style-tab" :type="tabs_type" animated @update:value="handle_styles_update">
