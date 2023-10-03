@@ -1,6 +1,6 @@
 <template>
   <!-- 允许拖动图片到页放上传 -->
-  <div class="drop-zone" @dragover="allowDrop" @drop="handleDrop" style="height: 100%">
+  <div class="drop-zone" @dragover="allowDrop" @drop="handleDrop" @paste="handlePaste" style="height: 100%">
     <n-layout>
       <n-tabs class="style-tab" :type="tabs_type" animated @update:value="handle_styles_update">
         <n-tab
@@ -282,6 +282,17 @@ export default {
       event.preventDefault();
       const file = event.dataTransfer.files[0]
       this.uploadFile(file)
+    },
+    handlePaste(event) {
+        const items = event.clipboardData.items
+        for (let i = 0; i < items.length; i++) {  
+            const item = items[i]
+            if (item.type.indexOf('image') !== -1) {  
+                const blob = item.getAsFile()
+                this.uploadFile(blob)
+                return
+            }  
+        }  
     },
     selectFile() {
       this.$refs.fileInput.click();
