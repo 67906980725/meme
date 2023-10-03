@@ -24,10 +24,9 @@
       </n-layout-sider>
 
       <n-layout-content>
-        <!-- <n-space vertical> -->
         <Search v-if="page == 'search'" />
         <Help v-if="page == 'help'" />
-        <!-- </n-space> -->
+        <ImgLocation v-if="page == 'img_location'" />
       </n-layout-content>
     </n-layout>
   </main>
@@ -59,6 +58,10 @@ export default {
       {
         label: "帮助",
         key: "help",
+      },
+      {
+        label: "图片坐标",
+        key: "img_location",
       }
     ];
 

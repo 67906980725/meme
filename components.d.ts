@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Help: typeof import('./src/components/Help.vue')['default']
+    ImgLocation: typeof import('./src/components/ImgLocation.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
     NH1: typeof import('naive-ui')['NH1']

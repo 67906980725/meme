@@ -101,11 +101,11 @@
 </template>
 
 <script lang="js">
+import { Config } from '@/stores/config'
 import { ref } from 'vue'
 import { reactive, watch, computed } from 'vue'
 import { FolderService } from '@/stores/api'
 import { NetUtil, DeviceUtil } from '@/stores/util'
-import { Config } from '@/stores/config'
 
 const isMobile = DeviceUtil.isMobile
 const debounce = isMobile ? NetUtil.dyn_debounce(370) : null
@@ -140,6 +140,11 @@ export default {
     // 聚焦搜索框
     this.focus_input()
   },
+  unmounted() {  
+    // 移除监听事件  
+    this.$el.removeEventListener('drop', this.handleDrop)
+    this.$el.removeEventListener('blur', this.handle_search_input_blur)
+  }, 
   methods: {
     handle_styles_update(val) {
       this.state.style_id = val;
