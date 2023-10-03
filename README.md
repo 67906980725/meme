@@ -77,7 +77,7 @@ pkg install -y sqlite
 
 ### 开发环境(debian
 
-- nodejs npm
+- nodejs npm yarn
 - rustup
 - libsqlite3-dev
 
@@ -87,13 +87,13 @@ windows 需要构建 `SQLite3.lib` `sqlite3.exp` 并复制 `sqlite3.dll` 到工�
 
 ``` shell
 # 安装依赖
-npm install
+yarn install
 
 # 如果是 linux 或 termux
 #  - 打包资源文件到 target 目录
-npm run package-linux
+yarn run package-linux
 #  - linux 直接安装 (到 ~/.local/app/meme)
-npm run install-linux
+yarn run install-linux
 #  - termux 直接安装
-npm run install-termux
+yarn run install-termux
 ```

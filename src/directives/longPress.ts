@@ -1,5 +1,6 @@
-import { ObjectDirective } from 'vue'
-const LongPress: ObjectDirective = {
+// import { ObjectDirective } from 'vue'
+// const LongPress: ObjectDirective = {
+  const LongPress: any = {
   // 组件mounted时执行指令
   mounted(el, binding, vNode) {
     // 确保提供的表达式是函数
