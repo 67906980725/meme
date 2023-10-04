@@ -9,7 +9,7 @@
   <n-p> [复制表情图片 (`pc`)] 点击表情图片 </n-p>
   <n-p> [修改关键词] 添加相同名称的表情分类 </n-p>
   <n-p> [删除风格/分类/表情] 可以用文件管理器删除, 会延时(5分钟)自动同步, 或手动同步 
-    <n-button text tag="a" target="_blank" type="primary" @click="re_init_db"> 点击开始 </n-button>
+    <n-button text tag="a" target="_blank" type="primary" @click="re_init_db"> 点击同步 </n-button>
   </n-p>
 </template>
 
