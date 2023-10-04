@@ -20,9 +20,8 @@ create_service() {
   work_dir="$3"
 
   dir_path="$PREFIX/var/service/$svc_name"
-  mkdir -p "$dir_path"
+  mkdir -p "$dir_path/log"
   cd "$dir_path"
-  mkdir log
   ln -sf $PREFIX/share/termux-services/svlogger $dir_path/log/run
 
   echo '#!/data/data/com.termux/files/usr/bin/sh' > run
