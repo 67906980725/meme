@@ -19,6 +19,7 @@ try { fs.rmSync(targetPath, { recursive: true }) } catch (error) {  }
 fs.mkdirSync(targetPath, { recursive: true })
 
 // 资源文件
+fs.copyFileSync('./README.md', path.join(targetPath, 'README.md'))
 fs.cpSync('./src-rs/resource/universal', targetPath, { recursive: true })
 if (isWindows) {
   fs.cpSync('./src-rs/resource/windows', targetPath, { recursive: true })
