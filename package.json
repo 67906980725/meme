@@ -17,7 +17,7 @@
     "collect": "run-p build && run-p build-rs && node ./script/collect.js",
     "collect-termux": "run-p build && run-p build-rs && node ./script/collect.js termux",
     "install-linux": "run-p collect && sh ./script/install.sh",
-    "install-termux": "run-p collect-termux && sh ./script/install.sh termux"
+    "install-termux": "run-p collect-termux && sh ./script/install.sh"
   },
   "dependencies": {
     "naive-ui": "^2.34.4",

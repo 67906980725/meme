@@ -9,8 +9,4 @@ mkdir -p "$target_path"
 
 # 安装
 cp -af ./target/. "$target_path/"
-if [ "$1" = "termux" ]; then
-  sh "$target_path/install_termux.sh"
-else
-  sh "$target_path/install.sh"
-fi
+sh "$target_path/install.sh"
