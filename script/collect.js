@@ -12,7 +12,8 @@ const cargoTargetDir = './src-rs/target' // 默认
 const targetPath = './target'
 
 const isWindows = os.type() == 'Windows_NT'
-const isLinux = os.type() == 'Linux'
+const isTermux = process.argv.length > 2 && process.argv[2] == 'termux'
+const isLinux = os.type() == 'Linux' && !isTermux
   
 // 清理上一次构建
 try { fs.rmSync(targetPath, { recursive: true }) } catch (error) {  }
@@ -25,6 +26,8 @@ if (isWindows) {
   fs.cpSync('./src-rs/resource/windows', targetPath, { recursive: true })
 } else if (isLinux) {
   fs.cpSync('./src-rs/resource/linux', targetPath, { recursive: true })
+} else if (isTermux) {
+  fs.cpSync('./src-rs/resource/termux', targetPath, { recursive: true })
 }
 
 // 页面

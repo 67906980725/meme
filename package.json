@@ -15,8 +15,9 @@
     "format": "prettier --write src/",
     "build-rs": "node ./script/build-rs.js && cargo build --manifest-path ./src-rs/Cargo.toml --release",
     "collect": "run-p build && run-p build-rs && node ./script/collect.js",
-    "install-linux": "run-p package-linux && sh ./script/install.sh",
-    "install-termux": "run-p package-linux && sh ./script/install.sh termux"
+    "collect-termux": "run-p build && run-p build-rs && node ./script/collect.js termux",
+    "install-linux": "run-p collect && sh ./script/install.sh",
+    "install-termux": "run-p collect-termux && sh ./script/install.sh termux"
   },
   "dependencies": {
     "naive-ui": "^2.34.4",

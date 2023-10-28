@@ -23,7 +23,7 @@
 - [修改关键词] 添加相同名称的表情分类
 - [删除风格/分类/表情] 可以用文件管理器删除, 会延时自动同步, 或手动同步
 
-## 依赖
+## 环境依赖
 
 ### windows
 
@@ -34,7 +34,7 @@
 
 安装 `xclip`
 
-`wayland` 环境下需要安装 `wl-clipboard`
+`wayland` 环境下还需要安装 `wl-clipboard`
 
 ### termux
 
@@ -61,7 +61,7 @@ pacman -U glibc-for-termux/*
 #grun --shell # 起一个可以访问 glibc 命令的shell
 ```
 
-## 资源
+## 手动资源管理
 
 - 在 `asset` 目录下存放着按**风格(模式)文件夹**/**分类文件夹**分好类的表情图片
 - 每个**表情分类文件夹**下存有放一个`utf-8`编码, 内容为关键词的文本文件(默认为 `keywork.txt`)
@@ -79,27 +79,30 @@ pacman -U glibc-for-termux/*
         │      2ba4fda4_1440w.jpg
 ```
 
-## 构建
+## 本地构建
 
-### 开发环境(debian
+### 开发环境
 
-- nodejs npm yarn
-- rustup
-- libsqlite3-dev
+- `nodejs` `npm` `yarn`
+- `rustup`
+- `libsqlite3-dev` (`debian` 需要)
+- `sqlite3.lib` (`windows` 需要, 复制到 `src-rs` 目录下)
 
-`windows` 需要构建 `SQLite3.lib` `sqlite3.exp` 并复制 `sqlite3.dll` 到工作目录
-
-### 构建 meme
+### 构建命令
 
 ``` shell
-# 安装依赖
+# 安装 node 依赖
 yarn install
 
-# 如果是 linux 或 termux
-#  - 打包资源文件到 target 目录
+# 构建资源并收集到 target 目录
+# windows / linux
 yarn run collect
-#  - linux 直接安装 (到 ~/.local/app/meme)
+# termux
+yarn run collect-termux
+
+# 直接安装到 ~/.local/app/meme 并创建服务
+# linux
 yarn run install-linux
-#  - termux 直接安装
+# termux
 yarn run install-termux
 ```
