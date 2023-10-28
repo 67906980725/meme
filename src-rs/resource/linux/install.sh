@@ -8,13 +8,13 @@ source ./.env
 
 # 桌面图标
 mkdir -p "$HOME/.local/share/applications"
-ln -sf "./.local/share/applications/meme_web.desktop" "$HOME/.local/share/applications/meme_web.desktop"
+ln -sf "$_cur_dir/.local/share/applications/meme_web.desktop" "$HOME/.local/share/applications/meme_web.desktop"
 sed -i '/^Exec=/c\Exec=sh\ -c\ "xdg-open http://127.0.0.1:$PORT"' "$HOME/.local/share/applications/meme_web.desktop"
 
 # 服务
 # 作为服务自启动后在 gnome 环境下使用 `O` 按钮无法打开表情文件夹
 mkdir -p "$HOME/.config/systemd/user"
-ln -sf "./.config/systemd/user/meme.service" "$HOME/.config/systemd/user/meme.service"
+ln -sf "$_cur_dir/.config/systemd/user/meme.service" "$HOME/.config/systemd/user/meme.service"
 sed -i '/^WorkingDirectory=/c\WorkingDirectory='$_cur_dir'' "$HOME/.config/systemd/user/meme.service"
 sed -i '/^ExecStart=/c\ExecStart='$_cur_dir/meme'' "$HOME/.config/systemd/user/meme.service"
 # 链接资源目录
