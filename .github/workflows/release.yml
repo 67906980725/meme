@@ -72,13 +72,10 @@ jobs:
         toolchain: ${{ matrix.rust }}
         target: ${{ matrix.target }}
 
-    - name: Build page
+    - name: Collect
       run: |
         yarn install
-        yarn run build
-
-    - name: Build release binary
-      run: cargo build --verbose --release
+        yarn run collect
 
     - name: Build archive
       shell: bash
