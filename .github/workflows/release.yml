@@ -1,0 +1,107 @@
+name: release
+on:
+  push:
+    # Enable when testing release infrastructure on a branch.
+    # branches:
+    # - ag/work
+    tags:
+    - "[0-9]+.[0-9]+.[0-9]+"
+jobs:
+  create-release:
+    name: create-release
+    runs-on: ubuntu-latest
+    # env:
+      # Set to force version number, e.g., when no tag exists.
+      # VER: TEST-0.0.1
+    outputs:
+      ver: ${{ env.VER }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Get the release version from the tag
+        shell: bash
+        if: env.VER == ''
+        run: |
+          echo "VER=$GITHUB_REF_NAME" >> $GITHUB_ENV
+          echo "version is: ${{ env.VER }}"
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create ${{ env.VER }}
+  build-release:
+    name: build-release
+    needs: ['create-release']
+    runs-on: ${{ matrix.os }}
+    env:
+      # For some builds, we use cross to test on 32-bit and big-endian
+      # systems.
+      CARGO: cargo
+      # When CARGO is set to CROSS, this is set to `--target matrix.target`.
+      TARGET_FLAGS: ""
+      # When CARGO is set to CROSS, TARGET_DIR includes matrix.target.
+      TARGET_DIR: ./target
+      # Emit backtraces on panics.
+      RUST_BACKTRACE: 1
+      # Build static releases with PCRE2.
+      PCRE2_SYS_STATIC: 1
+    strategy:
+      matrix:
+        build: [linux, win-msvc]
+        include:
+        - build: linux
+          os: ubuntu-latest
+          rust: nightly
+          target: x86_64-unknown-linux-musl
+        - build: win-msvc
+          os: windows-latest
+          rust: nightly
+          target: x86_64-pc-windows-msvc
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: "16"
+        cache: "yarn"
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: ${{ matrix.rust }}
+        target: ${{ matrix.target }}
+
+    - name: Build page
+      run: |
+        yarn install
+        yarn run build
+
+    - name: Build release binary
+      run: cargo build --verbose --release
+
+    - name: Build archive
+      shell: bash
+      run: |
+        staging="meme-${{ needs.create-release.outputs.ver }}-${{ matrix.target }}"
+        mkdir -p "$staging"
+
+        node script/collect.js
+        cp -af target/. "$staging/"
+
+        if [ "${{ matrix.os }}" = "windows-latest" ]; then
+          7z a "$staging.zip" "$staging"
+          certutil -hashfile "$staging.zip" SHA256 > "$staging.zip.sha256"
+          echo "ASSET=$staging.zip" >> $GITHUB_ENV
+          echo "ASSET_SUM=$staging.zip.sha256" >> $GITHUB_ENV
+        else
+          tar czf "$staging.tar.gz" "$staging"
+          shasum -a 256 "$staging.tar.gz" > "$staging.tar.gz.sha256"
+          echo "ASSET=$staging.tar.gz" >> $GITHUB_ENV
+          echo "ASSET_SUM=$staging.tar.gz.sha256" >> $GITHUB_ENV
+        fi
+
+    - name: Upload release archive
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: gh release upload ${{ needs.create-release.outputs.ver }} ${{ env.ASSET }} ${{ env.ASSET_SUM }}

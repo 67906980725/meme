@@ -97,7 +97,7 @@ yarn install
 
 # 如果是 linux 或 termux
 #  - 打包资源文件到 target 目录
-yarn run package-linux
+yarn run collect
 #  - linux 直接安装 (到 ~/.local/app/meme)
 yarn run install-linux
 #  - termux 直接安装

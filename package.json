@@ -14,9 +14,9 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
     "build-rs": "cargo build --manifest-path ./src-rs/Cargo.toml --release",
-    "package-linux": "run-p build && run-p build-rs && sh ./script/package_linux.sh",
-    "install-linux": "run-p package-linux && sh ./script/install_linux.sh",
-    "install-termux": "run-p package-linux && sh ./script/install_termux.sh"
+    "collect": "run-p build && run-p build-rs && node ./script/collect.js",
+    "install-linux": "run-p package-linux && sh ./script/install.sh",
+    "install-termux": "run-p package-linux && sh ./script/install.sh termux"
   },
   "dependencies": {
     "naive-ui": "^2.34.4",

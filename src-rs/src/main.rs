@@ -39,6 +39,10 @@ async fn main() -> std::io::Result<()> {
       watch_actions::async_watch().await.unwrap() 
   });
 
+  let asset_path_buf = configs::get_asset_path_buf();
+  if !&asset_path_buf.exists() {  
+    fs::create_dir_all(&asset_path_buf).unwrap();  
+  } 
   HttpServer::new(move || {
     App::new()
       .service(greet)
@@ -48,7 +52,7 @@ async fn main() -> std::io::Result<()> {
       .service(add_img).service(click_img).service(copy_image)
       .service(init_db).service(re_init_db)
       // 图片资源目录映射到/file接口
-      .service(Files::new("/file", configs::get_asset_path_buf())
+      .service(Files::new("/file", &asset_path_buf)
         .show_files_listing())
       // 页面资源映射到/接口
       .service(Files::new("/", "dist")
