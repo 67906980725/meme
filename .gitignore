@@ -13,10 +13,7 @@ dist
 dist-ssr
 coverage
 target
-
-/sqlite3.dll
-/sqlite3.lib
-/sqlite3.exp
+/src-rs/sqlite3.*
 
 /cypress/videos/
 /cypress/screenshots/

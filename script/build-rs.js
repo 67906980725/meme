@@ -8,5 +8,5 @@ if (os.type() != 'Windows_NT') {
 }
 
 if (!fs.existsSync('sqlite3.lib')) {
-  fs.cpSync('src-rs/resource/windows/sqlite3_win_x64', './', { recursive: true })
+  fs.cpSync('src-rs/resource/windows/sqlite3_win_x64', './src-rs', { recursive: true })
 }
