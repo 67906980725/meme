@@ -2,4 +2,4 @@
 
 sv-disable "meme"
 sv down "meme"
-rm -rf ""$PREFIX/var/service/meme"
+rm -rf "$PREFIX/var/service/meme"
