@@ -13,7 +13,7 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "build-rs": "cargo build --manifest-path ./src-rs/Cargo.toml --release",
+    "build-rs": "node ./script/build-rs.js && cargo build --manifest-path ./src-rs/Cargo.toml --release",
     "collect": "run-p build && run-p build-rs && node ./script/collect.js",
     "install-linux": "run-p package-linux && sh ./script/install.sh",
     "install-termux": "run-p package-linux && sh ./script/install.sh termux"
