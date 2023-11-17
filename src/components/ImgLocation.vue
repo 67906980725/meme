@@ -1,12 +1,26 @@
 <template>
     <div class="scroll-container" @paste="handlePaste">
       <div @dragover="allowDrop" @drop="handleDrop">
+        <label>*视频抽取一帧: ffmpeg -i input.mp4 -vframes 1 -ss 00:00:01 output.jpg</label>
+        <br>  
+
         <input type="file" @change="onFileChange" />(也可以拖动或粘贴图片<br>
-        <label>基准宽度:</label>  
-        <input v-model="width" type="number" />
-        <label>宽度: {{ originalWidth }}</label>
-        <label>高度: {{ originalHeight }}</label>
-        <label>(当修改宽度后, 将会以输入的宽度为基准缩放坐标</label>  
+        <label>宽度: {{ width }}, </label>
+        <label>高度: {{ height }}. </label>
+
+        <label>填充值到: </label>
+        <input type="radio" id="l_r_1" value="l_r_1" v-model="l_r">  
+        <label for="l_r_1">坐标1</label>
+        <input type="radio" id="l_r_2" value="l_r_2" v-model="l_r">  
+        <label for="l_r_2">坐标2</label>
+        <br>  
+
+        <label>坐标1:</label><input v-model="x1" type="number" /><input v-model="y1" type="number" />
+        <label>, 坐标2:</label><input v-model="x2" type="number" /><input v-model="y2" type="number" />
+
+        <br>  
+        <label>视频区域剪裁: ffmpeg -i input.mp4 -vf crop={{ w }}:{{ h }}:{{ x }}:{{ y }} output.mp4</label>
+
         <div><img v-if="imageUrl" :src="imageUrl" @click="copyCoordinates" ref="image" /></div>
       </div>
     </div>
@@ -14,31 +28,29 @@
 
   <script lang="js">
   import { Config } from '@/stores/config'
-  import { ref } from 'vue';  
+  import { ref } from 'vue'
   import { reactive, watch, computed } from 'vue'
 
   export default {  
     setup() {  
-      const imageUrl = ref('');  
-      const originalWidth = ref('');  
-      const originalHeight = ref('');  
-      const width = ref('');  
-      const height = ref('');  
-      const image = ref(null);  
-    
-      const copyCoordinates = (e) => {  
-        // 缩放倍数
-        const a = width.value / originalWidth.value
-        const rect = image.value.getBoundingClientRect()
-        const x = e.clientX - rect.left
-        const y = e.clientY - rect.top
-        const newX = x * a
-        const newY = y * a
-        // 这里可以根据实际需求添加复制坐标的代码，例如使用 navigator.clipboard.writeText() 方法复制到剪贴板  
-        alert(`坐标：(${newX}, ${newY})`)
-      }
-    
-      return { imageUrl, originalWidth, originalHeight, width, height, copyCoordinates, image }
+      const imageUrl = ref('')
+      const width = ref(0)
+      const height = ref(0)
+
+      const l_r = ref('l_r_1')
+
+      const x1 = ref(0)
+      const y1 = ref(0)
+      const x2 = ref(0)
+      const y2 = ref(0)
+
+      const w = ref(0)
+      const h = ref(0)
+      const x = ref(0)
+      const y = ref(0)
+      const image = ref(null)
+      
+      return { imageUrl, l_r, x, y, w, h, x1, y1, x2, y2, width, height, image }
     },  
     mounted() {  
       this.$el.addEventListener('drop', this.handleDrop)
@@ -84,11 +96,38 @@
             img.onload = function() {
                 const width = img.width
                 const height = img.height
-                page_this.originalWidth = width
-                page_this.originalHeight = height
                 page_this.width = width
                 page_this.height = height
+
+                page_this.w = width
+                page_this.h = height
+
+
+                page_this.x2 = width
+                page_this.y2 = height
             }
+        },
+        copyCoordinates(e) {  
+          // 缩放倍数
+          // const a = width.value / originalWidth.value
+          let el = e.target
+          const rect = el.getBoundingClientRect()
+          const t_x = parseInt(e.clientX - rect.left)
+          const t_y = parseInt(e.clientY - rect.top)
+          
+          // 这里可以根据实际需求添加复制坐标的代码，例如使用 navigator.clipboard.writeText() 方法复制到剪贴板  
+          // alert(`坐标：(${newX}, ${newY})`)
+          if (this.l_r == 'l_r_2') {
+            this.x2 = t_x
+            this.y2 = t_y
+          } else {
+            this.x1 = t_x
+            this.y1 = t_y
+          }
+          this.w = this.x2 - this.x1
+          this.h = this.y2 - this.y1
+          this.x = this.x1
+          this.y = this.y1
         },
     },
     unmounted() {  
