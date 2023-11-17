@@ -7,18 +7,21 @@
         <input type="file" @change="onFileChange" />(也可以拖动或粘贴图片<br>
         <label>宽度: {{ width }}, </label>
         <label>高度: {{ height }}. </label>
-
-        <label>填充值到: </label>
+        <label>坐标选取: </label>
         <input type="radio" id="l_r_1" value="l_r_1" v-model="l_r">  
-        <label for="l_r_1">坐标1</label>
+        <label for="l_r_1">左上角</label>
         <input type="radio" id="l_r_2" value="l_r_2" v-model="l_r">  
-        <label for="l_r_2">坐标2</label>
+        <label for="l_r_2">右下角</label>
         <br>  
 
-        <label>坐标1:</label><input v-model="x1" type="number" /><input v-model="y1" type="number" />
-        <label>, 坐标2:</label><input v-model="x2" type="number" /><input v-model="y2" type="number" />
+        <label>左上角:</label>
+        <input v-model="x1" type="number" @input="caclLo"/>
+        <input v-model="y1" type="number" @input="caclLo"/>
+        <label>, 右下角:</label>
+        <input v-model="x2" type="number" @input="caclLo"/>
+        <input v-model="y2" type="number" @input="caclLo"/>
+        <br>
 
-        <br>  
         <label>视频区域剪裁: ffmpeg -i input.mp4 -vf crop={{ w }}:{{ h }}:{{ x }}:{{ y }} output.mp4</label>
 
         <div><img v-if="imageUrl" :src="imageUrl" @click="copyCoordinates" ref="image" /></div>
@@ -89,6 +92,12 @@
             }
             reader.readAsDataURL(file) 
         },
+        caclLo() {
+          this.w = this.x2 - this.x1
+          this.h = this.y2 - this.y1
+          this.x = this.x1
+          this.y = this.y1
+        },
         img_size(url) {
             const page_this = this
             const img = new Image()
@@ -123,10 +132,7 @@
             this.x1 = t_x
             this.y1 = t_y
           }
-          this.w = this.x2 - this.x1
-          this.h = this.y2 - this.y1
-          this.x = this.x1
-          this.y = this.y1
+          this.caclLo()
         },
     },
     unmounted() {  
