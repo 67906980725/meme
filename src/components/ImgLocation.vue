@@ -102,7 +102,6 @@
                 page_this.w = width
                 page_this.h = height
 
-
                 page_this.x2 = width
                 page_this.y2 = height
             }
