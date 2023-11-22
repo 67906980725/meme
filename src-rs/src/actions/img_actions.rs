@@ -156,7 +156,7 @@ pub fn cp(full_path: &str) {
     if session_type == "x11" {
       // 需要安装xclip
       let output = Command::new("xclip")
-        .args(&["-selection", "clipboard", "-t", "image/png", "-i", full_path])
+        .args(&["-selection", "clipboard", "-t", "image/png", "-i", &format!("\"{}\"", full_path)])
         .output()
         .expect("图片复制命令执行异常");
       let ls_list = String::from_utf8(output.stdout);
@@ -171,7 +171,7 @@ pub fn cp(full_path: &str) {
     println!("无法获取XDG_SESSION_TYPE环境变量");
   }
   // 需要安装wl-clipboard
-  let cmd = format!("wl-copy -t image/png < {}", full_path);
+  let cmd = format!("wl-copy -t image/png < \"{}\"", full_path);
   let output = Command::new("sh")
     .args(&["-c", &cmd])
     .output()
@@ -199,7 +199,7 @@ pub fn cp(full_path: &str) {
   let script_buf = Path::new("copy_img_win.ps1");
   let script = script_buf.to_str().unwrap();
   // {} 后字符串不会被""包裹, {:?}后输出的是适合放在代码里的字符串对象, 无法直接放在命令行里执行
-  let cmd = format!("{} -img {}", &script, &tmp_file_buf.to_str().unwrap());
+  let cmd = format!("{} -img \"{}\"", &script, &tmp_file_buf.to_str().unwrap());
   let output = Command::new("powershell")
     .args(&["-ExecutionPolicy", "RemoteSigned", "-Command", &cmd])
     .output()
