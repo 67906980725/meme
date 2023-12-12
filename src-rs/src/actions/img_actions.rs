@@ -192,14 +192,20 @@ pub fn cp(full_path: &str) {
   //   .unwrap_or_else(|e| { log::error!("向剪切板写入图片失败:{:?}", e.message()) }); // todo 参数大小错误
 
   // 复制到临时文件 避免全路径过长
-  let tmp_file_buf = configs::get_tmp_path_buf().join("1");
+  let mut tmp_file_buf = configs::get_tmp_path_buf().join("1");
   fs::copy(window_full_path, tmp_file_buf.clone()).unwrap();
-
+  
+  let current_dir = env::current_dir().unwrap();
+  let absolute_tmp_file_buf: PathBuf = current_dir.join(&tmp_file_buf);
+  if ! tmp_file_buf.is_absolute() {
+    tmp_file_buf = absolute_tmp_file_buf;
+  }
+  
   // 使用脚本复制
   let script_buf = Path::new("copy_img_win.ps1");
   let script = script_buf.to_str().unwrap();
   // {} 后字符串不会被""包裹, {:?}后输出的是适合放在代码里的字符串对象, 无法直接放在命令行里执行
-  let cmd = format!("{} -img \"{}\"", &script, &tmp_file_buf.to_str().unwrap());
+  let cmd = format!(".\\{} -img \"{}\"", &script, &tmp_file_buf.to_str().unwrap());
   let output = Command::new("powershell")
     .args(&["-ExecutionPolicy", "RemoteSigned", "-Command", &cmd])
     .output()
