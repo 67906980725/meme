@@ -39,26 +39,11 @@
 ### termux
 
 ``` bash
-# 更新源
-apt update
-apt upgrade -y
-
-# 安装基础依赖
-pkg install -y termux-api termux-services
 # 申请存储权限
 termux-setup-storage
-
-# 安装sqlite
-pkg install -y sqlite
-
-# 安装glibc
-pkg ins pacman -y
-github_proxy='https://download.nuaa.cf/'
-arch='aarch64'
-wget ${github_proxy}https://github.com/Maxython/glibc-for-termux/releases/download/20221025/gpft-20221025-${arch}.tar.xz
-tar xJf gpft-20221025-${arch}.tar.xz
-pacman -U glibc-for-termux/*
-#grun --shell # 起一个可以访问 glibc 命令的shell
+# 更新源
+apt update && apt upgrade -y
+# 运行时依赖见 release 下 install.sh
 ```
 
 ## 手动资源管理

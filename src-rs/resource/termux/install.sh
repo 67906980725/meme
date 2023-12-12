@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# 依赖
+pkg update
+pkg install -y termux-api termux-services
+pkg install -y sqlite libsqlite
+
 _work_dir=$(pwd)
 cd $(dirname "$0")
 _app_dir=$(readlink -f $(pwd))
