@@ -239,6 +239,52 @@ export default {
       }
     },
     copy_img(img, auto = 0) {
+      // // 截止2023-12-12 浏览器不支持复制动图 (Type image/gif not supported on write
+      // function createDataURItoBlob(dataURI) {
+      //   const byteString = atob(dataURI.split(',')[1]);
+      //   const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+      //   const ab = new ArrayBuffer(byteString.length);
+      //   const ia = new Uint8Array(ab);
+      //   for (let i = 0; i < byteString.length; i++) {
+      //     ia[i] = byteString.charCodeAt(i);
+      //   }
+      //   return new Blob([ab], { type: mimeString });
+      // };
+      // if (navigator.clipboard && navigator.clipboard.write) {
+      //   fetch("http://localhost:8899/file/" + img.path)
+      //     .then((res) => res.blob()).then(blob => {
+      //       const blobUrl = URL.createObjectURL(blob);
+      //       // 创建一个临时图像元素
+      //       const tempImage = document.createElement('img');
+      //       tempImage.src = blobUrl;
+
+      //       // 等待图像加载完成
+      //       tempImage.onload = () => {
+      //         // 将图像绘制到 Canvas 上
+      //         const canvas = document.createElement('canvas');
+      //         canvas.width = tempImage.naturalWidth;
+      //         canvas.height = tempImage.naturalHeight;
+      //         const ctx = canvas.getContext('2d');
+      //         ctx.drawImage(tempImage, 0, 0, canvas.width, canvas.height);
+
+      //         // 将 Canvas 转换为 Blob 对象
+      //         const imageData = canvas.toDataURL('image/gif');
+      //         const dataUriBlob = createDataURItoBlob(imageData);
+
+      //         // 将 Blob 写入剪贴板
+      //         const clipboardItems = [
+      //           new ClipboardItem({ 'image/gif': dataUriBlob })
+      //         ];
+      //         navigator.clipboard.write(clipboardItems);
+
+      //         // 清理资源
+      //         console.log('GIF copied to clipboard!');
+      //       }
+      //     })
+      // }
+      // return
+
+      // 暂时使用后端调用系统命令的方式复制图片
       if (!isMobile) {
         FolderService.img_click(img.id, auto)
         FolderService.copy_img(img.path)
