@@ -285,11 +285,11 @@ export default {
       // return
 
       // 暂时使用后端调用系统命令的方式复制图片
-      if (!isMobile) {
+      // if (!isMobile) {
         FolderService.img_click(img.id, auto)
         FolderService.copy_img(img.path)
         return
-      }
+      // }
 
       // 调用浏览器分享图片 (不太行)
       // const url = this.path_to_url(img.path)
