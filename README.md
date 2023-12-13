@@ -32,7 +32,7 @@
 
 ### linux
 
-安装 `xclip`
+安装 `libsqlite3` `xclip`
 
 `wayland` 环境下还需要安装 `wl-clipboard`
 
