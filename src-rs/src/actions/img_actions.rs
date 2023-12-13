@@ -149,9 +149,9 @@ pub fn copy_image(p: String) {
 
 #[cfg(target_os = "android")]
 pub fn cp(full_path: &str) {
-  let cmd = format!("\"{}\"", &full_path);
+  // let cmd = format!("\"{}\"", &full_path);
   let output = Command::new("termux-share")
-    .args(&[&cmd])
+    .args(&[&full_path])
     .output()
     .expect("图片复制命令执行异常");
   let ls_list = String::from_utf8(output.stdout);
