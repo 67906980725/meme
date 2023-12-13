@@ -38,6 +38,8 @@
 
 ### termux
 
+安装和 termux 同一渠道下载的 termux-api.apk, 授权后重启设备
+
 ``` bash
 # 申请存储权限
 termux-setup-storage
@@ -45,6 +47,8 @@ termux-setup-storage
 apt update && apt upgrade -y
 # 运行时依赖见 release 下 install.sh
 ```
+
+*如果要点击分享图片需要将 termux 小窗或分屏挂在前台
 
 ## 手动资源管理
 
